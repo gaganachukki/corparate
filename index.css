@@ -450,6 +450,36 @@ body {
   font-size: 14px;
 }
 
+.social-media {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.social-media a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(0, 234, 255, 0.1);
+  border: 1.5px solid #00eaff;
+  color: #00eaff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.social-media a:hover {
+  background: linear-gradient(135deg, #00eaff, #9f5cff);
+  border-color: #9f5cff;
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 234, 255, 0.4), 0 0 20px rgba(159, 92, 255, 0.3);
+}
+
 @media (max-width: 992px) {
   .footer-container {
     grid-template-columns: 1fr 1fr;
