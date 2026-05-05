@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  color: white;
+  font-family: sans-serif;
+}
+
+.container {
+  text-align: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+h1 {
+  font-size: 120px;
+  background: linear-gradient(to right, #00eaff, #9f5cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+a {
+  color: #00eaff;
+  text-decoration: none;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
