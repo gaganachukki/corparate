@@ -2,31 +2,60 @@
 // PRELOADER
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
+  const heroContent = document.querySelector(".hero-content");
+  
   setTimeout(() => {
     if (preloader) {
       preloader.classList.add("hidden");
     }
+    // Start hero animation after preloader is hidden
+    if (heroContent) {
+      heroContent.classList.add("animate");
+    }
   }, 3000);
 });
 
+// HERO PARALLAX EFFECT
+const hero = document.querySelector(".hero");
+const heroContent = document.querySelector(".hero-content");
+
+if (hero && heroContent) {
+  hero.addEventListener("mousemove", (e) => {
+    const { clientX, clientY } = e;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    const moveX = (clientX - centerX) / 50;
+    const moveY = (clientY - centerY) / 50;
+    
+    heroContent.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  });
+}
+
+// REVEAL ON SCROLL
 const reveals = document.querySelectorAll(".reveal");
 
-window.addEventListener("scroll", () => {
-  reveals.forEach((el) => {
-    const windowHeight = window.innerHeight;
-    const elementTop = el.getBoundingClientRect().top;
-
-    if (elementTop < windowHeight - 100) {
-      el.classList.add("active");
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
     }
   });
-});
+}, { threshold: 0.1 });
+
+reveals.forEach(el => revealObserver.observe(el));
 
 
 window.addEventListener("scroll", () => {
   const nav = document.querySelector(".navbar");
-  nav.style.background =
-    window.scrollY > 50 ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.6)";
+  if (nav) {
+    nav.style.background =
+      window.scrollY > 50 ? "rgba(5, 7, 13, 0.9)" : "transparent";
+    nav.style.backdropFilter = 
+      window.scrollY > 50 ? "blur(10px)" : "none";
+    nav.style.padding = 
+      window.scrollY > 50 ? "15px 60px" : "20px 60px";
+  }
 });
 
 // COUNT ANIMATION
@@ -36,19 +65,19 @@ const statsSection = document.querySelector(".stats");
 const countUp = (el) => {
   const target = +el.getAttribute("data-target");
   const count = +el.innerText;
-  const speed = 200; // Lower is faster
+  const speed = 100; 
   const inc = target / speed;
 
   if (count < target) {
     el.innerText = Math.ceil(count + inc);
-    setTimeout(() => countUp(el), 1);
+    setTimeout(() => countUp(el), 20);
   } else {
     el.innerText = target;
   }
 };
 
 let animated = false;
-const observer = new IntersectionObserver((entries) => {
+const statsObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting && !animated) {
     stats.forEach(countUp);
     animated = true;
@@ -56,7 +85,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 
 if (statsSection) {
-  observer.observe(statsSection);
+  statsObserver.observe(statsSection);
 }
 
 // CTA VALIDATION
@@ -69,13 +98,11 @@ if (ctaSubmit && ctaEmail) {
       ctaEmail.placeholder = "Please enter your email id!";
       ctaEmail.classList.add("error");
       
-      // Reset error state after 3 seconds
       setTimeout(() => {
         ctaEmail.placeholder = "Enter your email address";
         ctaEmail.classList.remove("error");
       }, 3000);
     } else {
-      // Redirect to 404.html when email is entered
       window.location.href = "404.html";
     }
   });
@@ -85,28 +112,22 @@ if (ctaSubmit && ctaEmail) {
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("nav-links");
 const navItems = document.querySelectorAll(".nav-links li a");
+const sidebarClose = document.getElementById("sidebar-close");
 
 if (hamburger && navLinks) {
   hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("active");
-    // Toggle between bars and times icon
-    const icon = hamburger.querySelector("i");
-    if (navLinks.classList.contains("active")) {
-      icon.classList.remove("fa-bars");
-      icon.classList.add("fa-times");
-    } else {
-      icon.classList.remove("fa-times");
-      icon.classList.add("fa-bars");
-    }
   });
 
-  // Close sidebar when a link is clicked
+  if (sidebarClose) {
+    sidebarClose.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+    });
+  }
+
   navItems.forEach(item => {
     item.addEventListener("click", () => {
       navLinks.classList.remove("active");
-      const icon = hamburger.querySelector("i");
-      icon.classList.remove("fa-times");
-      icon.classList.add("fa-bars");
     });
   });
 }
