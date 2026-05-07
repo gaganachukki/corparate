@@ -12,14 +12,27 @@ body {
 .container {
   text-align: center;
   animation: float 3s ease-in-out infinite;
+  padding: clamp(20px, 4vw, 40px);
+  max-width: 95vw;
 }
 
 h1 {
-  font-size: 120px;
+  font-size: clamp(48px, 15vw, 120px);
   background: linear-gradient(to right, #00eaff, #9f5cff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: clamp(12px, 3vw, 20px);
+}
+
+p {
+  font-size: clamp(13px, 2.5vw, 18px);
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  margin: 0;
+  color: #aaa;
 }
 
 a {
@@ -29,17 +42,19 @@ a {
 
 .btn {
   display: inline-block;
-  margin-top: 30px;
-  padding: 12px 30px;
+  margin-top: clamp(20px, 4vw, 30px);
+  padding: clamp(10px, 2vw, 12px) clamp(20px, 3vw, 30px);
   background: linear-gradient(to right, #00eaff, #9f5cff);
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 16px);
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.5px;
 }
 
 .btn:hover {
@@ -54,5 +69,36 @@ a {
 
 @keyframes float {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(clamp(-15px, -3vw, -20px)); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    padding: clamp(20px, 4vw, 40px) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    min-height: 100vh;
+    padding: clamp(20px, 3vw, 30px) 0;
+  }
+
+  h1 {
+    font-size: clamp(60px, 18vw, 100px);
+    margin-bottom: clamp(12px, 3vw, 20px);
+  }
+
+  p {
+    font-size: clamp(16px, 3vw, 18px);
+  }
+
+  .btn {
+    width: clamp(200px, 85vw, 100%);
+    margin: clamp(20px, 4vw, 30px) auto 0;
+    padding: clamp(12px, 2.5vw, 14px) clamp(24px, 4vw, 35px);
+    font-size: clamp(15px, 3vw, 16px);
+  }
 }

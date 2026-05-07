@@ -49,12 +49,11 @@ reveals.forEach(el => revealObserver.observe(el));
 window.addEventListener("scroll", () => {
   const nav = document.querySelector(".navbar");
   if (nav) {
-    nav.style.background =
-      window.scrollY > 50 ? "rgba(5, 7, 13, 0.9)" : "transparent";
-    nav.style.backdropFilter = 
-      window.scrollY > 50 ? "blur(10px)" : "none";
-    nav.style.padding = 
-      window.scrollY > 50 ? "15px 60px" : "20px 60px";
+    if (window.scrollY > 50) {
+      nav.classList.add("scrolled");
+    } else {
+      nav.classList.remove("scrolled");
+    }
   }
 });
 
@@ -117,17 +116,20 @@ const sidebarClose = document.getElementById("sidebar-close");
 if (hamburger && navLinks) {
   hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("active");
+    document.body.style.overflow = navLinks.classList.contains("active") ? "hidden" : "auto";
   });
 
   if (sidebarClose) {
     sidebarClose.addEventListener("click", () => {
       navLinks.classList.remove("active");
+      document.body.style.overflow = "auto";
     });
   }
 
   navItems.forEach(item => {
     item.addEventListener("click", () => {
       navLinks.classList.remove("active");
+      document.body.style.overflow = "auto";
     });
   });
 }
